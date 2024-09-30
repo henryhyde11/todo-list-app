@@ -13,8 +13,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('description', 255);
             $table->string('image_uri')->nullable();
+            $table->date('started_at');
+            $table->date('finished_at')->nullable();
             $table->timestamps();
-            $table->date('expiration_at')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('category_id');
         });
