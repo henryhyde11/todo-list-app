@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->date('expiration_at')->nullable();
             $table->foreignId('user_id');
+            $table->foreignId('category_id');
         });
     }
 
