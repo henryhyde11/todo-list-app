@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description', 124);
-            $table->string('image')->nullable();
+            $table->string('description', 255);
+            $table->string('image_uri')->nullable();
             $table->timestamps();
             $table->date('expiration_at')->nullable();
             $table->foreignId('user_id');
