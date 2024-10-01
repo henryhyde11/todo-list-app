@@ -170,6 +170,7 @@ const handleSave = () => {
         .post("/api/notes", form)
         .then((response) => {
             router.push('/');
+            toast.fire({icon: 'success', title: 'Nota añadida exitosamente'});
             console.log(response.data);
         })
         .catch((error) => {
