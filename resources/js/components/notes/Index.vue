@@ -14,14 +14,30 @@
     <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center items-center bg-blue-100 gap-2"
     >
-        <div class="max-w-sm p-4 rounded-lg">
+        <div
+            v-for="note in notes"
+            :key="note.id"
+            class="w-96 p-4 rounded-lg"
+        >
             <div class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-lg">
-                <div class="flex justify-between">
-                    <div
+                <div class="flex justify-between gap-4">
+                    <div v-if="note.category === 'Social'"
                         class="w-fit border p-1 border-blue-500 rounded-lg flex items-center justify-between gap-1"
                     >
                         <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
-                        <span>Etiqueta</span>
+                        <span>{{ note.category }}</span>
+                    </div>
+                    <div v-else-if="note.category === 'Estudio'"
+                        class="w-fit border p-1 border-yellow-500 rounded-lg flex items-center justify-between gap-1"
+                    >
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        <span>{{ note.category }}</span>
+                    </div>
+                    <div v-else-if="note.category === 'Trabajo'"
+                        class="w-fit border p-1 border-green-500 rounded-lg flex items-center justify-between gap-1"
+                    >
+                        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                        <span>{{ note.category }}</span>
                     </div>
 
                     <DropDownBtn />
@@ -29,166 +45,30 @@
 
                 <div>
                     <h3 class="text-xl font-semibold">
-                        Título: Company website redesign
+                        {{ note.title }}
                     </h3>
                     <h3 class="text-lg font-semibold">Usuario: Luis</h3>
                 </div>
 
                 <p class="text- text-gray-600">
-                    Descripción: DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
+                    {{ note.description }}
                 </p>
 
-                <div>
+                <div v-if="note.image === 'No image'" class="hidden"></div>
+                <div v-else class="flex items-center justify-center">
                     <img
-                        :src="getImageUrl"
-                        class="w-full h-40 rounded-3xl object-cover"
-                        alt="Café"
+                        :src="ourImage(note.image)"
+                        class="w-52 h-40 rounded-3xl object-cover"
+                        alt="Image"
                     />
                 </div>
 
-                <div
-                    class="flex items-center justify-between text-sm text-gray-500"
-                >
-                    <div>
-                        <span>📅Fecha de creación: 7 Sept, 23:00</span>
-                    </div>
+                <div class="flex flex-col gap-3 text-sm text-gray-500">
+                    <span>📅{{ note.started_at }}</span>
 
-                    <div class="text-red-500 font-bold">
-                        <h3>Vencimiento: Two days ago</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-sm p-4 rounded-lg">
-            <div class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-lg">
-                <div
-                    class="w-fit border p-1 border-blue-500 rounded-lg flex items-center justify-between gap-1"
-                >
-                    <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
-                    <span>Etiqueta</span>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold">
-                        Título: Company website redesign
-                    </h3>
-                    <h3 class="text-lg font-semibold">Usuario: Luis</h3>
-                </div>
-
-                <p class="text- text-gray-600">
-                    Descripción: DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
-                </p>
-
-                <div>
-                        <img
-                            :src="getImageUrl"
-                            class="w-full h-40 rounded-3xl object-cover"
-                            alt="Café"
-                        />
-                    </div>
-
-                <div
-                    class="flex items-center justify-between text-sm text-gray-500"
-                >
-                    <div>
-                        <span>📅Fecha de creación: 7 Sept, 23:00</span>
-                    </div>
-
-                    <div class="text-red-500 font-bold">
-                        <h3>Vencimiento: Two days ago</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-sm p-4 rounded-lg">
-            <div class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-lg">
-                <div
-                    class="w-fit border p-1 border-blue-500 rounded-lg flex items-center justify-between gap-1"
-                >
-                    <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
-                    <span>Etiqueta</span>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold">
-                        Título: Company website redesign
-                    </h3>
-                    <h3 class="text-lg font-semibold">Usuario: Luis</h3>
-                </div>
-
-                <p class="text- text-gray-600">
-                    Descripción: DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
-                </p>
-
-                <div>
-                    <img
-                        :src="getImageUrl"
-                        class="w-full h-40 rounded-3xl object-cover"
-                        alt="Café"
-                    />
-                </div>
-
-                <div
-                    class="flex items-center justify-between text-sm text-gray-500"
-                >
-                    <div>
-                        <span>📅Fecha de creación: 7 Sept, 23:00</span>
-                    </div>
-
-                    <div class="text-red-500 font-bold">
-                        <h3>Vencimiento: Two days ago</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-sm p-4 rounded-lg">
-            <div class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-lg">
-                <div
-                    class="w-fit border p-1 border-blue-500 rounded-lg flex items-center justify-between gap-1"
-                >
-                    <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
-                    <span>Etiqueta</span>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold">
-                        Título: Company website redesign
-                    </h3>
-                    <h3 class="text-lg font-semibold">Usuario: Luis</h3>
-                </div>
-
-                <p class="text- text-gray-600">
-                    Descripción: DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. DesLorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.
-                </p>
-
-                <div>
-                    <img
-                        :src="getImageUrl"
-                        class="w-full h-40 rounded-3xl object-cover"
-                        alt="Café"
-                    />
-                </div>
-
-                <div
-                    class="flex items-center justify-between text-sm text-gray-500"
-                >
-                    <div>
-                        <span>📅Fecha de creación: 7 Sept, 23:00</span>
-                    </div>
-
-                    <div class="text-red-500 font-bold">
-                        <h3>Vencimiento: Two days ago</h3>
+                    <div v-if="note.finished_at === null" class="hidden"></div>
+                    <div v-else class="text-red-500 font-bold">
+                        <h3>Vencimiento: {{ note.finished_at }}</h3>
                     </div>
                 </div>
             </div>
@@ -199,7 +79,7 @@
 <script setup>
 import DropDownBtn from "../DropDownBtn.vue";
 import { useRouter } from "vue-router";
-import { ref, computed } from "vue";
+import { onMounted, ref, computed } from "vue";
 
 const imageUrl = ref("/imagenes/cafe-img.jpg");
 
@@ -208,6 +88,22 @@ const getImageUrl = computed(() => imageUrl.value);
 const router = useRouter();
 
 const newNote = () => {
-  router.push('/notes/create');
+    router.push("/notes/create");
+};
+
+const ourImage = (img) => {
+    return "/imagenes/" + img;
+};
+
+let notes = ref([]);
+
+onMounted(async () => {
+    getNotes();
+});
+
+const getNotes = async () => {
+    let response = await axios.get("/api/notes").then((response) => {
+        notes.value = response.data.notes;
+    });
 };
 </script>
