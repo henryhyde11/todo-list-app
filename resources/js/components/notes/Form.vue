@@ -45,9 +45,9 @@
 
             <span class="mx-4 text-gray-500"></span>
 
-        <!-- Fecha de vencimiento -->
+            <!-- Fecha de vencimiento -->
 
-        <input
+            <input
                 v-model="form.finished_at"
                 type="date"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
@@ -128,7 +128,8 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
 
 const form = reactive({
     title: "",
@@ -138,6 +139,8 @@ const form = reactive({
     image: "",
     category: "",
 });
+
+const router = useRouter()
 
 const handleFileChange = (e) => {
     let file = e.target.files[0];
@@ -166,10 +169,11 @@ const handleSave = () => {
     axios
         .post("/api/notes", form)
         .then((response) => {
-            console.log(response.data); // Para verificar si los datos se están enviando correctamente
+            router.push('/');
+            console.log(response.data);
         })
         .catch((error) => {
-            console.error(error.response.data); // Para depurar el error
+            console.error(error.response.data);
         });
 };
 </script>
