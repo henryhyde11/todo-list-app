@@ -9,13 +9,15 @@
                 type="text"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
             />
             <label
                 for="title"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >Título</label
             >
+            <span v-if="errors.title" class="text-xs text-red-500">{{
+                errors.title
+            }}</span>
         </div>
 
         <!-- Description -->
@@ -25,40 +27,60 @@
                 type="text"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-                required
             />
             <label
                 for="description"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >Descripción</label
             >
+            <span v-if="errors.description" class="text-xs text-red-500">{{
+                errors.description
+            }}</span>
         </div>
 
         <!-- Fecha de inicio -->
-        <div class="flex items-center mb-5">
-            <input
-                v-model="form.started_at"
-                type="date"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
-                placeholder="Fecha de inicio"
-            />
+        <div class="grid sm:grid-cols-2 items-end mb-5 gap-5">
+            <div>
+                <h3 class="text-lg font-semibold mb-4">
+                    Fecha de inicio:
+                </h3>
 
-            <span class="mx-4 text-gray-500"></span>
+                <input
+                    v-model="form.started_at"
+                    type="date"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+                    placeholder="Fecha de inicio"
+                />
+
+                <span v-if="errors.started_at" class="text-xs text-red-500">{{
+                    errors.started_at
+                }}</span>
+            </div>
 
             <!-- Fecha de vencimiento -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">
+                    Fecha de vencimiento (opcional):
+                </h3>
 
-            <input
-                v-model="form.finished_at"
-                type="date"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
-                placeholder="Fecha de vencimiento"
-            />
+                <input
+                    v-model="form.finished_at"
+                    type="date"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
+                    placeholder="Fecha de vencimiento"
+                />
+
+                <span v-if="errors.finished_at" class="text-xs text-red-500">{{
+                    errors.finished_at
+                }}</span>
+            </div>
         </div>
 
         <!-- Imagen -->
         <h3 class="text-lg font-semibold mb-4">
             Seleccione una imagen (opcional):
         </h3>
+
         <div
             class="w-full flex flex-col justify-center items-center gap-5 mb-5"
         >
@@ -73,6 +95,9 @@
                 alt="Imagen nota"
                 class="w-32 h-32 rounded-3xl object-cover"
             />
+            <span v-if="errors.image" class="text-xs text-red-500">{{
+                errors.image
+            }}</span>
         </div>
 
         <!-- Etiqueta -->
@@ -116,6 +141,9 @@
                     </div>
                 </label>
             </div>
+            <span v-if="errors.category" class="text-xs text-red-500">{{
+                errors.category
+            }}</span>
         </div>
 
         <button
@@ -128,8 +156,8 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const form = reactive({
     title: "",
@@ -139,8 +167,6 @@ const form = reactive({
     image: "",
     category: "",
 });
-
-const router = useRouter()
 
 const handleFileChange = (e) => {
     let file = e.target.files[0];
@@ -165,16 +191,25 @@ const getImage = () => {
     return image;
 };
 
+const router = useRouter();
+
+let errors = ref([]);
+
 const handleSave = () => {
     axios
         .post("/api/notes", form)
         .then((response) => {
-            router.push('/');
-            toast.fire({icon: 'success', title: 'Nota añadida exitosamente'});
+            router.push("/");
+            toast.fire({ icon: "success", title: "Nota añadida exitosamente" });
             console.log(response.data);
         })
         .catch((error) => {
-            console.error(error.response.data);
+            if (error.response.status === 422) {
+                errors.value = error.response.data.errors;
+            }
+            // console.log(error.response.data);
+            // console.log(error.response.data.errors);
+            // console.log(error.response.status);
         });
 };
 </script>
