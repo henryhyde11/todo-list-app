@@ -1,41 +1,59 @@
 <template>
-    <img
-        src="/public/icons/tres-puntos.svg"
-        id="dropdownLeftEndButton" data-dropdown-toggle="dropdownLeftEnd" data-dropdown-placement="left-end"
-        data-dropdown-offset-distance="1" 
-        data-dropdown-offset-skidding="70" 
-        class="cursor-pointer"
-        alt=""
-    />
+    <div class="relative inline-block text-left" ref="dropdown">
+        <div @click="toggleDropdown" class="cursor-pointer">
+            <img src="/public/icons/tres-puntos.svg" />
+        </div>
 
-    <div
-        id="dropdownLeftEnd"
-        class="z-10 hidden border bg-white divide-y divide-gray-100 rounded-lg shadow w-32 dark:bg-gray-700"
-    >
-        <ul
-            class="py-2 text-sm"
-            aria-labelledby="dropdownDefaultButton"
+        <div
+            v-if="isOpen"
+            class="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
         >
-            <li>
-                <a
-                    href="#"
-                    class="block px-4 py-2 text-blue-500 hover:bg-gray-100"
-                    >Editar</a
-                >
-            </li>
-            <li>
-                <a
-                    href="#"
-                    class="block px-4 py-2 text-red-500 hover:bg-gray-100"
-                    >Eliminar</a
-                >
-            </li>
-        </ul>
+            <ul class="py-2 text-sm" aria-labelledby="dropdownDefaultButton">
+                <li>
+                    <a
+                        href="#"
+                        class="block px-4 py-2 text-blue-500 hover:bg-gray-100"
+                        >Editar</a
+                    >
+                </li>
+                <li>
+                    <a
+                        href="#"
+                        class="block px-4 py-2 text-red-500 hover:bg-gray-100"
+                        >Eliminar</a
+                    >
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
-<script>
-export default {
-    name: "DropDownBtn",
-};
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
+
+const isOpen = ref(false);
+const dropdown = ref(null);
+
+function toggleDropdown() {
+    isOpen.value = !isOpen.value;
+}
+
+function handleClickOutside(event) {
+    if (dropdown.value && !dropdown.value.contains(event.target)) {
+        isOpen.value = false;
+    }
+}
+
+onMounted(() => {
+    window.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener("click", handleClickOutside);
+});
+
+const name = "DropDownBtn";
 </script>
