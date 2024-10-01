@@ -17,7 +17,7 @@
         <div
             v-for="note in notes"
             :key="note.id"
-            class="w-96 p-4 rounded-lg"
+            class="w-full p-4 rounded-lg"
         >
             <div class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-lg">
                 <div class="flex justify-between gap-4">
