@@ -11,7 +11,7 @@ class StoreNoteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,9 +24,10 @@ class StoreNoteRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'category_id' => 'required',
-            'expiration_at' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category' => 'required',
+            'started_at' => 'required|date',
+            'finished_at' => 'nullable|date',
+            'image' => 'nullable|string',
         ];
     }
 }
