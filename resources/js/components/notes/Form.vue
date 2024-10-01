@@ -1,5 +1,10 @@
 <template>
-    <h1 class="text-3xl font-bold text-center mb-5">Crear nueva tarea</h1>
+    <h1 v-if="editMode" class="text-3xl font-bold text-center mb-5">
+        Editar tarea
+    </h1>
+    <h1 v-else class="text-3xl font-bold text-center mb-5">
+        Crear nueva tarea
+    </h1>
 
     <section class="max-w-md mx-auto">
         <!-- Title -->
@@ -41,9 +46,7 @@
         <!-- Fecha de inicio -->
         <div class="grid sm:grid-cols-2 items-end mb-5 gap-5">
             <div>
-                <h3 class="text-lg font-semibold mb-4">
-                    Fecha de inicio:
-                </h3>
+                <h3 class="text-lg font-semibold mb-4">Fecha de inicio:</h3>
 
                 <input
                     v-model="form.started_at"
@@ -90,11 +93,13 @@
                 type="file"
                 class="w-full"
             />
+
             <img
                 :src="getImage()"
                 alt="Imagen nota"
                 class="w-32 h-32 rounded-3xl object-cover"
             />
+
             <span v-if="errors.image" class="text-xs text-red-500">{{
                 errors.image
             }}</span>
@@ -108,7 +113,7 @@
                 <label class="inline-flex items-center">
                     <input
                         type="radio"
-                        value="social"
+                        value="Social"
                         v-model="form.category"
                         class="peer"
                     />
@@ -120,7 +125,7 @@
                 <label class="inline-flex items-center">
                     <input
                         type="radio"
-                        value="estudio"
+                        value="Estudio"
                         v-model="form.category"
                         class="peer"
                     />
@@ -132,7 +137,7 @@
                 <label class="inline-flex items-center">
                     <input
                         type="radio"
-                        value="trabajo"
+                        value="Trabajo"
                         v-model="form.category"
                         class="peer"
                     />
@@ -156,8 +161,8 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
+import { reactive, ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
 const form = reactive({
     title: "",
@@ -185,10 +190,36 @@ const getImage = () => {
     if (form.image && form.image.indexOf("base64") != -1) {
         image = form.image;
     } else if (form.image) {
-        image = "/imagenes" + form.image;
+        image = "/imagenes/" + form.image;
     }
 
     return image;
+};
+
+const route = useRoute();
+
+const editMode = ref(false);
+
+onMounted(() => {
+    if (route.name === "notes.edit") {
+        editMode.value = true;
+        getNote();
+    }
+});
+
+const getNote = async () => {
+    let response = await axios
+        .get(`/api/notes/${route.params.id}/edit`)
+        .then((response) => {
+            if (response.data.note.image !== 'No image') {
+                form.image = response.data.note.image; 
+            }
+            form.title = response.data.note.title;
+            form.description = response.data.note.description;
+            form.started_at = response.data.note.started_at;
+            form.finished_at = response.data.note.finished_at;
+            form.category = response.data.note.category;
+        });
 };
 
 const router = useRouter();
@@ -207,9 +238,7 @@ const handleSave = () => {
             if (error.response.status === 422) {
                 errors.value = error.response.data.errors;
             }
-            // console.log(error.response.data);
-            // console.log(error.response.data.errors);
-            // console.log(error.response.status);
+
         });
 };
 </script>
