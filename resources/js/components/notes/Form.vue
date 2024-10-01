@@ -27,12 +27,12 @@
 
         <!-- Description -->
         <div class="relative z-0 w-full mb-5 group">
-            <input
+            <textarea
                 v-model="form.description"
                 type="text"
                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                 placeholder=" "
-            />
+            ></textarea>
             <label
                 for="description"
                 class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -60,8 +60,8 @@
                 }}</span>
             </div>
 
-            <!-- Fecha de vencimiento -->
-            <div>
+        <!-- Fecha de vencimiento -->
+        <div>
                 <h3 class="text-lg font-semibold mb-4">
                     Fecha de vencimiento (opcional):
                 </h3>
@@ -211,14 +211,12 @@ const getNote = async () => {
     let response = await axios
         .get(`/api/notes/${route.params.id}/edit`)
         .then((response) => {
-            if (response.data.note.image !== 'No image') {
-                form.image = response.data.note.image; 
-            }
             form.title = response.data.note.title;
             form.description = response.data.note.description;
             form.started_at = response.data.note.started_at;
             form.finished_at = response.data.note.finished_at;
             form.category = response.data.note.category;
+            form.image = response.data.note.image;
         });
 };
 
@@ -226,19 +224,44 @@ const router = useRouter();
 
 let errors = ref([]);
 
-const handleSave = () => {
+const handleSave = (values, actions) => {
+    if (editMode.value) {
+        updateNote(values, actions);
+    } else {
+        createNote(values, actions);
+    }
+};
+
+const createNote = (values, actions) => {
     axios
         .post("/api/notes", form)
         .then((response) => {
             router.push("/");
             toast.fire({ icon: "success", title: "Nota añadida exitosamente" });
-            console.log(response.data);
         })
         .catch((error) => {
             if (error.response.status === 422) {
                 errors.value = error.response.data.errors;
             }
+        });
+};
 
+const updateNote = (values, actions) => {
+    axios
+        .put(`/api/notes/${route.params.id}`, form)
+        .then((response) => {
+            router.push("/");
+            toast.fire({
+                icon: "success",
+                title: "Nota actualizada exitosamente",
+            });
+            console.log(response.data);
+        })
+        .catch((error) => {
+            if (error.response.status === 422) {
+                errors.value = error.response.data.errors;
+                console.error(error.response);
+            }
         });
 };
 </script>
