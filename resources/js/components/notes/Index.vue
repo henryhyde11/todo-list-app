@@ -22,21 +22,21 @@
             <div class="flex flex-col gap-5 bg-white p-6 rounded-lg shadow-lg">
                 <div class="flex justify-between gap-4">
                     <div v-if="note.category === 'Social'"
-                        class="w-fit border p-1 border-blue-500 rounded-lg flex items-center justify-between gap-1"
+                        class="w-fit border p-1 border-blue-500 rounded-lg flex items-center justify-between text-sm gap-1"
                     >
-                        <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
                         <span>{{ note.category }}</span>
                     </div>
                     <div v-else-if="note.category === 'Estudio'"
-                        class="w-fit border p-1 border-yellow-500 rounded-lg flex items-center justify-between gap-1"
+                        class="w-fit border p-1 border-yellow-500 rounded-lg flex items-center justify-between text-sm gap-1"
                     >
-                        <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
                         <span>{{ note.category }}</span>
                     </div>
                     <div v-else-if="note.category === 'Trabajo'"
-                        class="w-fit border p-1 border-green-500 rounded-lg flex items-center justify-between gap-1"
+                        class="w-fit border p-1 border-green-500 rounded-lg flex items-center justify-between text-sm gap-1"
                     >
-                        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
                         <span>{{ note.category }}</span>
                     </div>
 
