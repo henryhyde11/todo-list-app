@@ -12,7 +12,10 @@
                     >
                         Iniciar sesión
                     </h1>
-                    <form @submit.prevent="handleSubmit" class="space-y-4 md:space-y-6">
+                    <form
+                        @submit.prevent="handleSubmit"
+                        class="space-y-4 md:space-y-6"
+                    >
                         <div>
                             <label
                                 for="email"
@@ -20,7 +23,7 @@
                                 >Email</label
                             >
                             <input
-                                v-model="form.email"
+                                v-model="email"
                                 type="email"
                                 name="email"
                                 id="email"
@@ -35,7 +38,7 @@
                                 >Contraseña</label
                             >
                             <input
-                                v-model="form.password"
+                                v-model="password"
                                 type="password"
                                 name="password"
                                 id="password"
@@ -53,10 +56,11 @@
                         <p
                             class="text-sm font-light text-gray-500 dark:text-gray-400"
                         >
-                            ¿No tienen una cuenta?<a
-                                href="/register"
+                            ¿No tienen una cuenta?
+                            <RouterLink
+                                to="/register"
                                 class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                >Registrate</a
+                                >Registrate</RouterLink
                             >
                         </p>
                     </form>
@@ -66,17 +70,73 @@
     </section>
 </template>
 
-<script setup>
+<!-- <script setup>
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
 
 const form = reactive({
     email: "",
     password: "",
 });
 
+const router = useRouter();
+
 const handleSubmit = () => {
     axios.post("/login", form).then(() => {
-        windows.location.href = "/welcome";
+        router.push('/');
     });
+};
+</script> -->
+
+<!-- <script>
+import { mapActions } from 'vuex';
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      error: null,
+    };
+  },
+  methods: {
+    ...mapActions(['login']),
+    async login() {
+      try {
+        await this.login({ email: this.email, password: this.password });
+        this.$router.push('/');
+      } catch (error) {
+        this.error = 'Invalid credentials';
+      }
+    },
+  },
+};
+</script> -->
+
+<script setup>
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
+// Definimos las propiedades reactivas
+const email = ref("");
+const password = ref("");
+const error = ref(null);
+
+// Accedemos al store y al router
+const store = useStore();
+const router = useRouter();
+
+// Función para el login
+const login = async () => {
+    try {
+        await store.dispatch("login", {
+            email: email.value,
+            password: password.value,
+        });
+        router.push("/");
+    } catch (err) {
+        error.value = "Invalid credentials";
+    }
 };
 </script>
