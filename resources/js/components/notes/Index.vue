@@ -80,7 +80,7 @@
 import DropDownBtn from "../DropDownBtn.vue";
 
 import { useRouter } from "vue-router";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, provide } from "vue";
 
 const imageUrl = ref("/imagenes/cafe-img.jpg");
 
@@ -107,4 +107,6 @@ const getNotes = async () => {
         notes.value = response.data.notes;
     });
 };
+
+provide('getNotes', getNotes);
 </script>
