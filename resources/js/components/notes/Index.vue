@@ -40,7 +40,7 @@
                         <span>{{ note.category }}</span>
                     </div>
 
-                    <DropDownBtn />
+                    <DropDownBtn :idNote="note.id"/>
                 </div>
 
                 <div>
@@ -78,6 +78,7 @@
 
 <script setup>
 import DropDownBtn from "../DropDownBtn.vue";
+
 import { useRouter } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 
