@@ -14,8 +14,8 @@
             <ul class="py-2 text-sm" aria-labelledby="dropdownDefaultButton">
                 <li>
                     <a
-                        href="#"
-                        class="block px-4 py-2 text-blue-500 hover:bg-gray-100"
+                        @click="onEdit(idNote)"
+                        class="block px-4 py-2 text-blue-500 hover:bg-gray-100 cursor-pointer"
                         >Editar</a
                     >
                 </li>
@@ -32,7 +32,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, defineProps  } from "vue";
+import { useRouter } from "vue-router";
 
 const isOpen = ref(false);
 const dropdown = ref(null);
@@ -54,6 +55,19 @@ onMounted(() => {
 onBeforeUnmount(() => {
     window.removeEventListener("click", handleClickOutside);
 });
+
+const router = useRouter();
+
+const props = defineProps({
+  idNote: {
+    type: Number,
+    required: true,
+  },
+});
+
+const onEdit = (id) => {
+    router.push(`/notes/${id}/edit`);
+};
 
 const name = "DropDownBtn";
 </script>
