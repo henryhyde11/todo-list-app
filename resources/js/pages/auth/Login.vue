@@ -13,7 +13,7 @@
                         Iniciar sesión
                     </h1>
                     <form
-                        @submit.prevent="login"
+                        @submit.prevent="handleSubmit"
                         class="space-y-4 md:space-y-6"
                     >
                         <div>
@@ -68,7 +68,7 @@
                         >
                             ¿No tienen una cuenta?
                             <RouterLink
-                                to="/register"
+                                to="/home/register"
                                 class="font-medium text-blue-600 hover:underline dark:text-blue-500"
                                 >Registrate</RouterLink
                             >
@@ -92,13 +92,13 @@ const errors = ref([]);
 const store = useStore();
 const router = useRouter();
 
-const login = async (response) => {
+const handleSubmit = async (response) => {
     try {
         await store.dispatch("login", {
             email: email.value,
             password: password.value,
         });
-        router.push("/");
+        router.push({ name: "notes.index" });
     } catch (error) {
         errors.value = error.response.data.errors;
     }

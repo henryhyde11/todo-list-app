@@ -16,7 +16,7 @@
                         class="flex items-center space-x-6 rtl:space-x-reverse"
                     >
                         <RouterLink
-                            to="/login"
+                            to="/home/login"
                             class="text-md text-white hover:underline"
                             >Iniciar sesión</RouterLink
                         >
@@ -26,7 +26,7 @@
                         class="flex items-center space-x-6 rtl:space-x-reverse"
                     >
                         <RouterLink
-                            to="/register"
+                            to="/home/register"
                             class="text-md text-white hover:underline"
                             >Registrarse</RouterLink
                         >
