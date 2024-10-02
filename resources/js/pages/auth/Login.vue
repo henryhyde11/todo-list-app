@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="handleSubmit" class="bg-gray-50 dark:bg-gray-900">
+    <section class="bg-gray-50 dark:bg-gray-900">
         <div
             class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
         >
@@ -12,7 +12,7 @@
                     >
                         Iniciar sesión
                     </h1>
-                    <div class="space-y-4 md:space-y-6">
+                    <form @submit.prevent="handleSubmit" class="space-y-4 md:space-y-6">
                         <div>
                             <label
                                 for="email"
@@ -59,11 +59,11 @@
                                 >Registrate</a
                             >
                         </p>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </form>
+    </section>
 </template>
 
 <script setup>
