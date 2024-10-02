@@ -13,19 +13,19 @@ const routes = [
         path: "/",
         name: "notes.index",
         component: noteIndex,
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: "/notes/create",
         name: "notes.create",
         component: noteForm,
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: "/notes/:id/edit",
         name: "notes.edit",
         component: noteForm,
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
     },
     {
         path: "/home",
@@ -33,12 +33,12 @@ const routes = [
         component: home,
     },
     {
-        path: "/login",
+        path: "/home/login",
         name: "auth.login",
         component: login,
     },
     {
-        path: "/register",
+        path: "/home/register",
         name: "auth.register",
         component: register,
     },
@@ -54,14 +54,14 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
         next({ name: "home" });
     } else if (
         (to.name === "auth.login" || to.name === "auth.register") &&
         store.getters.isAuthenticated
     ) {
-        next({ name: "notes.index" }); // Redirigir a home si ya está autenticado
+        next({ name: "notes.index" });
     } else {
         next();
     }
