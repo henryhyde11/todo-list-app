@@ -17,7 +17,7 @@
                             <label
                                 for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                >Tu email</label
+                                >Email</label
                             >
                             <input
                                 v-model="form.email"
@@ -54,7 +54,7 @@
                             class="text-sm font-light text-gray-500 dark:text-gray-400"
                         >
                             ¿No tienen una cuenta?<a
-                                href="#"
+                                href="/register"
                                 class="font-medium text-blue-600 hover:underline dark:text-blue-500"
                                 >Registrate</a
                             >
