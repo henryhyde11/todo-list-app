@@ -19,6 +19,7 @@ export default createStore({
         async login({ commit }, credentials) {
             try {
                 const response = await axios.post("/login", credentials);
+                console.log(response)
                 commit("setUser", response.data.user);
                 return response;
             } catch (error) {
