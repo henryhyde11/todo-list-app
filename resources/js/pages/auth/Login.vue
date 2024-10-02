@@ -13,7 +13,7 @@
                         Iniciar sesión
                     </h1>
                     <form
-                        @submit.prevent="handleSubmit"
+                        @submit.prevent="login"
                         class="space-y-4 md:space-y-6"
                     >
                         <div>
@@ -29,6 +29,11 @@
                                 id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
+                            <span
+                                v-if="errors.email"
+                                class="text-xs text-red-500"
+                                >{{ errors.email }}</span
+                            >
                         </div>
 
                         <div>
@@ -44,6 +49,11 @@
                                 id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
+                            <span
+                                v-if="errors.password   "
+                                class="text-xs text-red-500"
+                                >{{ errors.password }}</span
+                            >
                         </div>
 
                         <button
@@ -70,73 +80,27 @@
     </section>
 </template>
 
-<!-- <script setup>
-import { reactive } from "vue";
-import { useRouter } from "vue-router";
-
-const form = reactive({
-    email: "",
-    password: "",
-});
-
-const router = useRouter();
-
-const handleSubmit = () => {
-    axios.post("/login", form).then(() => {
-        router.push('/');
-    });
-};
-</script> -->
-
-<!-- <script>
-import { mapActions } from 'vuex';
-
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      error: null,
-    };
-  },
-  methods: {
-    ...mapActions(['login']),
-    async login() {
-      try {
-        await this.login({ email: this.email, password: this.password });
-        this.$router.push('/');
-      } catch (error) {
-        this.error = 'Invalid credentials';
-      }
-    },
-  },
-};
-</script> -->
-
 <script setup>
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
-// Definimos las propiedades reactivas
 const email = ref("");
 const password = ref("");
-const error = ref(null);
+const errors = ref([]);
 
-// Accedemos al store y al router
 const store = useStore();
 const router = useRouter();
 
-// Función para el login
-const login = async () => {
+const login = async (response) => {
     try {
         await store.dispatch("login", {
             email: email.value,
             password: password.value,
         });
         router.push("/");
-    } catch (err) {
-        error.value = "Invalid credentials";
+    } catch (error) {
+        errors.value = error.response.data.errors;
     }
 };
 </script>
