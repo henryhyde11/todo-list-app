@@ -1,0 +1,19 @@
+{
+  "public/icons/tres-puntos.svg": {
+    "file": "assets/tres-puntos-B3InYFQw.svg",
+    "src": "public/icons/tres-puntos.svg"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-BGDLv4nL.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/tres-puntos-B3InYFQw.svg"
+    ],
+    "file": "assets/app-DAn-39dq.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
