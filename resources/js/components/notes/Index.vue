@@ -47,7 +47,7 @@
                     <h3 class="text-xl font-semibold">
                         {{ note.title }}
                     </h3>
-                    <h3 class="text-lg font-semibold">Usuario: Luis</h3>
+                    <!-- <h3 class="text-lg font-semibold">Usuario: Luis</h3> -->
                 </div>
 
                 <p class="text- text-gray-600">
