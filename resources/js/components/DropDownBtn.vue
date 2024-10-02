@@ -21,8 +21,8 @@
                 </li>
                 <li>
                     <a
-                        href="#"
-                        class="block px-4 py-2 text-red-500 hover:bg-gray-100"
+                        @click="onDeleteNote(idNote)"
+                        class="block px-4 py-2 text-red-500 hover:bg-gray-100 cursor-pointer"
                         >Eliminar</a
                     >
                 </li>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, defineProps  } from "vue";
+import { ref, onMounted, onBeforeUnmount, defineProps, inject } from "vue";
 import { useRouter } from "vue-router";
 
 const isOpen = ref(false);
@@ -59,14 +59,40 @@ onBeforeUnmount(() => {
 const router = useRouter();
 
 const props = defineProps({
-  idNote: {
-    type: Number,
-    required: true,
-  },
+    idNote: {
+        type: Number,
+        required: true,
+    },
 });
 
 const onEdit = (id) => {
     router.push(`/notes/${id}/edit`);
+};
+
+const getNotes = inject("getNotes");
+
+const onDeleteNote = (id) => {
+    Swal.fire({
+        title: "¿Desea eliminar esta nota?",
+        text: "Esto no se podrá revertir.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/api/notes/${id}`).then(() => {
+                Swal.fire({
+                    title: "Eliminado!",
+                    text: "Su nota ha sido eliminada.",
+                    icon: "success",
+                });
+            });
+        }
+        getNotes();
+    });
 };
 
 const name = "DropDownBtn";
