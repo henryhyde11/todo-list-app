@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import noteIndex from "../components/notes/Index.vue";
 import notFound from "../components/NotFound.vue";
 import noteForm from "../components/notes/Form.vue";
+import login from "../pages/auth/Login.vue"
+import register from "../pages/auth/Login.vue"
 
 const routes = [
     {
@@ -24,6 +26,16 @@ const routes = [
         path: "/:pathMatch(.*)*",
         name: "notfound",
         component: notFound,
+    },
+    {
+        path: "/login",
+        name: "auth.login",
+        component: login,
+    },
+    {
+        path: "/register",
+        name: "auth.register",
+        component: register,
     },
 ];
 
