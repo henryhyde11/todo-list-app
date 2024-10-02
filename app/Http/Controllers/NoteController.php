@@ -19,11 +19,6 @@ class NoteController extends Controller
         return response()->json(compact('notes'), 200);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreNoteRequest $request)
     {
         $note = new Note();
@@ -49,12 +44,6 @@ class NoteController extends Controller
         }
 
         $note->save();
-    }
-
-    public function show(Note $id)
-    {
-        // $note = Note::findOrFail($id);
-        // return response()->json($note);
     }
 
     public function edit($id)
@@ -96,11 +85,15 @@ class NoteController extends Controller
         $note->save();
     }
 
-    public function destroy(Note $id)
+    public function destroy(Note $note)
     {
-        // $note = Note::findOrFail($id);
-        // $note->delete();
+        $image_path = public_path() . "/imagenes/";
+        $image = $image_path . $note->image;
 
-        // return response()->json(['message' => 'Nota eliminada exitosamente']);
+        if (file_exists($image)) {
+            @unlink($image);
+        }
+
+        $note->delete();
     }
 }
