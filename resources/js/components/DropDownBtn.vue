@@ -6,7 +6,7 @@
 
         <div
             v-if="isOpen"
-            class="origin-top-right absolute right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+            class="origin-top-right absolute right-0 rounded-md shadow-2xl bg-slate-100 ring-1 ring-black ring-opacity-5 focus:outline-none"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="options-menu"
@@ -15,14 +15,14 @@
                 <li>
                     <a
                         @click="onEdit(idNote)"
-                        class="block px-4 py-2 text-blue-500 hover:bg-gray-100 cursor-pointer"
+                        class="block px-4 py-2 text-blue-500 hover:bg-slate-200 cursor-pointer"
                         >Editar</a
                     >
                 </li>
                 <li>
                     <a
                         @click="onDeleteNote(idNote)"
-                        class="block px-4 py-2 text-red-500 hover:bg-gray-100 cursor-pointer"
+                        class="block px-4 py-2 text-red-500 hover:bg-slate-200 cursor-pointer"
                         >Eliminar</a
                     >
                 </li>
